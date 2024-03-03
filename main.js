@@ -11,7 +11,7 @@ const keys = [
     ["9", "!"],
     ["0", "!"],
     ["'", "?"],
-    ["¿", "¡"],
+    ["BACK", "BACK"],
   ], //primera fila
   [
     ["q", "Q"],
@@ -61,22 +61,87 @@ const keys = [
 
 let mayus = false;
 let shift = false;
+var output = [];
 const keyboardContainer = document.querySelector(".keyboardContainer");
+const inputLabel = document.querySelector("input");
 let keyHtml = "";
 printKeys();
 
 function printKeys() {
-  let filaKey = [];
+  let filaKey = []; //aqui se guardara las filas de teclas
+  keyHtml = ""; //aque se guardara el html para el div
 
-  // console.log(keys.map((key, ind, fila) => key));
-  for (let i = 0; i < keys.length; i++) {
-    keyHtml += `<div class="fila" data-fila="${i + 1}">`;
-    filaKey = keys[i].map((key, ind, fila) => {
-      // console.log(keyboard);
-      return `<div class="key key-${key}" data-key="${key[0]}">${key[0]}</div>`;
+  //primero recorro las filas
+  for (let filaInd = 0; filaInd < keys.length; filaInd++) {
+    //para cada fila anado un div identificandola.
+    keyHtml += `<div class="fila" data-fila="${filaInd + 1}">`;
+    //recorro tods las teclas dentro de la fila actual.
+    filaKey = keys[filaInd].map((key, ind, fila) => {
+      const activeMode = mayus ? 1 : 0 || shift ? 1 : 0;
+      return `<div class="key" data-key="${key[0]}" data-id="${(
+        Math.random() * 100
+      )
+        .toString(36)
+        .slice("3")}">${key[activeMode]}</div>`;
     });
     keyHtml += filaKey.join("");
     keyHtml += `</div>`;
   }
   keyboardContainer.innerHTML = keyHtml;
+  initEvent();
+}
+function initEvent() {
+  //guardo todos los teclas
+  const buttonKeys = document.querySelectorAll(".key");
+
+  //a cada tecla le agrego un eventListener
+  buttonKeys.forEach((key) => {
+    key.addEventListener("click", (e) => {
+      //obtengo el id de la tecla presionada
+      const id = e.target.getAttribute("data-id");
+
+      //obtengo el valor de la tecla presionada los da en mini¿uscula
+      const data_key = e.target.getAttribute("data-key");
+      if (data_key === "MAYUS") {
+        //si fue mayus
+        mayus = !mayus; //cambia su estado
+        printKeys(); //repinta las teclas
+        return;
+        //lo mismo  para shift
+      } else if (data_key == "SHIFT") {
+        shift = !shift;
+        console.log("shift", shift);
+        printKeys();
+        return;
+      } else if (data_key === "BACK") {
+        output.pop();
+      } else {
+        //Aqui se guardara la tecla presionada
+        let keyPressed = "";
+
+        //busco en cada fila del teclado
+        for (fila of keys) {
+          //dentro de cada fila se busca la tecla que
+          for (tecla of fila) {
+            //cuando se encuentre segun mayus devuelve minuscula o mayuscula
+            if (tecla[0] === data_key) {
+              if (mayus || shift) {
+                keyPressed = tecla[1];
+              } else {
+                keyPressed = tecla[0];
+              }
+            }
+          }
+        }
+
+        output.push(keyPressed);
+      }
+
+      inputLabel.value = output.join("");
+      if (shift) {
+        shift = false;
+        printKeys();
+      }
+    });
+  });
 }

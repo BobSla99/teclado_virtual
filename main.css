@@ -25,10 +25,12 @@ body {
 
 input {
   /* position: relative; */
-  transform: translateX(var(--width-app));
-  background-color: #941;
-  width: 50px;
+  background-color: rgb(126, 112, 104);
+  margin: 15px 30px;
+  margin-bottom: 0px;
+  width: inherit;
   height: 50px;
+  border-radius: 10px;
 }
 
 .fila {
