@@ -70,22 +70,13 @@ function printKeys() {
 
   // console.log(keys.map((key, ind, fila) => key));
   for (let i = 0; i < keys.length; i++) {
+    keyHtml += `<div class="fila" data-fila="${i + 1}">`;
     filaKey = keys[i].map((key, ind, fila) => {
       // console.log(keyboard);
-      return `<div class="key key-${fila[ind][0]}" data-key="${key[0]}">${key[0]}</div>`;
+      return `<div class="key key-${key}" data-key="${key[0]}">${key[0]}</div>`;
     });
     keyHtml += filaKey.join("");
+    keyHtml += `</div>`;
   }
   keyboardContainer.innerHTML = keyHtml;
-  //   for (let i = 0; i < keys.length; i++) {
-  //     for (let e = 0; e < keys[i].length; e++) {
-  //       console.log(keys[i][e]);
-  //   keyboard = `<div class="key key-${keys[i][e]}" data-key="${keys[i][e]}">
-  //                 <div class
-  //              </div>`;
-  // }
-  //   }
-  // const keyboard=keys.map((key,i,arr)=>{
-
-  // })
 }
