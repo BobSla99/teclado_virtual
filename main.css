@@ -4,6 +4,7 @@
 body {
   background-color: #941;
   box-sizing: content-box;
+  user-select: none;
 }
 
 .app {
@@ -31,6 +32,8 @@ input {
   width: inherit;
   height: 50px;
   border-radius: 10px;
+  pointer-events: none;
+  font-size: 30px;
 }
 
 .fila {
@@ -47,4 +50,12 @@ input {
   padding: 0px 5px;
   margin: 3px 0px;
   box-sizing: border-box;
+}
+
+.key:hover {
+  background-color: rgb(104, 47, 11);
+}
+
+.buttonActive {
+  background-color: rgb(104, 47, 11);
 }

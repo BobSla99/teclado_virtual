@@ -54,7 +54,6 @@ const keys = [
     [",", ";"],
     [".", ":"],
     ["-", "_"],
-    ["SHIFT", "SHIFT"],
   ],
   [["SPACE", "SPACE"]], //ultima fila
 ];
@@ -78,16 +77,24 @@ function printKeys() {
     //recorro tods las teclas dentro de la fila actual.
     filaKey = keys[filaInd].map((key, ind, fila) => {
       const activeMode = mayus ? 1 : 0 || shift ? 1 : 0;
-      return `<div class="key" data-key="${key[0]}" data-id="${(
-        Math.random() * 100
-      )
-        .toString(36)
-        .slice("3")}">${key[activeMode]}</div>`;
+      return `<div class="key ${key[1]}" id="${key[0]}" data-key="${
+        key[0]
+      }" data-id="${(Math.random() * 100).toString(36).slice("3")}">${
+        key[activeMode]
+      }</div>`;
     });
     keyHtml += filaKey.join("");
     keyHtml += `</div>`;
   }
   keyboardContainer.innerHTML = keyHtml;
+  if (mayus) {
+    const mayusBut = document.getElementById("MAYUS");
+    console.log(mayusBut);
+    mayusBut.classList.add("buttonActive");
+  } else if (shift) {
+    const shiftBut = document.querySelector("#SHIFT");
+    shiftBut.classList.add("buttonActive");
+  }
   initEvent();
 }
 function initEvent() {
@@ -99,7 +106,6 @@ function initEvent() {
     key.addEventListener("click", (e) => {
       //obtengo el id de la tecla presionada
       const id = e.target.getAttribute("data-id");
-
       //obtengo el valor de la tecla presionada los da en mini¿uscula
       const data_key = e.target.getAttribute("data-key");
       if (data_key === "MAYUS") {
@@ -113,6 +119,8 @@ function initEvent() {
         console.log("shift", shift);
         printKeys();
         return;
+      } else if (data_key === "SPACE") {
+        output.push(" ");
       } else if (data_key === "BACK") {
         output.pop();
       } else {
