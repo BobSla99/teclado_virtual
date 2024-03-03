@@ -1,6 +1,14 @@
+:root {
+  --width-app: 270px;
+}
 body {
   background-color: #941;
   box-sizing: content-box;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
 }
 
 .app .keyboardContainer {
@@ -13,6 +21,14 @@ body {
   border-radius: 10px;
   /* overflow: var(); */
   /* scrollbar-width: auto; */
+}
+
+input {
+  /* position: relative; */
+  transform: translateX(var(--width-app));
+  background-color: #941;
+  width: 50px;
+  height: 50px;
 }
 
 .fila {
