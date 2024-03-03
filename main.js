@@ -19,7 +19,7 @@ const keys = [
     ["e", "E"],
     ["r", "R"],
     ["t", "T"],
-    ["y", "y"],
+    ["y", "Y"],
     ["u", "U"],
     ["i", "I"],
     ["o", "O"],
@@ -61,10 +61,13 @@ const keys = [
 let mayus = false;
 let shift = false;
 var output = [];
+var notPrintigKey = true;
+var lasCaracterGuion = false;
 const keyboardContainer = document.querySelector(".keyboardContainer");
 const inputLabel = document.querySelector("input");
 let keyHtml = "";
 printKeys();
+initCursor();
 
 function printKeys() {
   let filaKey = []; //aqui se guardara las filas de teclas
@@ -103,7 +106,11 @@ function initEvent() {
 
   //a cada tecla le agrego un eventListener
   buttonKeys.forEach((key) => {
+    notPrintigKey = false;
+
     key.addEventListener("click", (e) => {
+      //si esta visible el cursor lo elimino
+
       //obtengo el id de la tecla presionada
       const id = e.target.getAttribute("data-id");
       //obtengo el valor de la tecla presionada los da en mini¿uscula
@@ -141,7 +148,15 @@ function initEvent() {
             }
           }
         }
-
+        console.log(keyPressed);
+        if (keyPressed === "_") {
+          lasCaracterGuion = true;
+        } else {
+          lasCaracterGuion = false;
+        }
+        if (output[output.length - 1] === "_" && keyPressed !== "_") {
+          output.pop();
+        }
         output.push(keyPressed);
       }
 
@@ -152,4 +167,18 @@ function initEvent() {
       }
     });
   });
+  notPrintigKey = true;
+}
+
+function initCursor() {
+  const timer = setInterval(() => {
+    if (notPrintigKey) {
+      if (output[output.length - 1] === "_") {
+        if (!lasCaracterGuion) output.pop();
+      } else {
+        output.push("_");
+      }
+      inputLabel.value = output.join("");
+    }
+  }, 500);
 }
